@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://resources/movable.gd" type="Script" id=1]
+[ext_resource path="res://addons/game_state_helper/game_state_helper.gd" type="Script" id=2]
+
+[node name="Movable" type="KinematicBody2D"]
+z_index = 1
+script = ExtResource( 1 )
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource( 2 )
+save_properties = [ "global_position", "speed" ]

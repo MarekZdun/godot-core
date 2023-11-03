@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://addons/scene_manager/proxy_scene.tscn" type="PackedScene" id=1]
+[ext_resource path="res://work/src/scenes/main_scenes/scene_2.gd" type="Script" id=2]
+[ext_resource path="res://resources/trigger.gd" type="Script" id=3]
+[ext_resource path="res://addons/game_state_helper/game_state_helper.gd" type="Script" id=4]
+[ext_resource path="res://resources/movable.tscn" type="PackedScene" id=5]
+
+[node name="Scene2" instance=ExtResource( 1 )]
+layer = 0
+script = ExtResource( 2 )
+next_level_filepath = "res://work/src/scenes/main_scenes/scene_1.tscn"
+
+[node name="Movable" parent="." index="0" instance=ExtResource( 5 )]
+
+[node name="Trigger" type="Label" parent="." index="1"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -25.5
+margin_top = -7.0
+margin_right = 25.5
+margin_bottom = 7.0
+text = "SCENE 2"
+align = 1
+valign = 1
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+trigger_id = "main_trigger"
+
+[node name="Node" type="Node" parent="Trigger" index="0"]
+script = ExtResource( 4 )
+global = true
+
+[node name="Label2" type="Label" parent="." index="2"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -357.0
+margin_top = -230.0
+text = "PRESS S TO SAVE GAME
+
+PRESS L TO LOAD GAME
+
+PRESS ENTER TO DESTROY PLAYER
+
+PRESS SPACE TO CHANGE MIDDLE LABEL COLOR
+
+PRESS ESCAPE TO EXIT LEVEL
+
+CLICK LEFT MOUSE BUTTON TO ADD/REMOVE GODOTEE
+
+PRESS 1 TO GO TO LEVEL 1"
+
+[connection signal="loading_data" from="Trigger/Node" to="Trigger" method="_on_GameStateHelper_loading_data"]
+[connection signal="saving_data" from="Trigger/Node" to="Trigger" method="_on_GameStateHelper_saving_data"]
