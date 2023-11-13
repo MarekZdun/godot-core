@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://work/src/main.gd" type="Script" id=1]
-[ext_resource path="res://resources/window_data/work_manager.tres" type="Resource" id=2]
+[ext_resource path="res://work/src/resources/window_data/work_manager.tres" type="Resource" id=2]
 [ext_resource path="res://addons/game_state_helper/game_state_helper.gd" type="Script" id=3]
 
 [node name="Main" type="Node"]

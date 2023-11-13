@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/gui_manager/gui.tscn" type="PackedScene" id=1]
+[ext_resource path="res://work/src/scenes/gui_scenes/gui_hud.gd" type="Script" id=2]
+[ext_resource path="res://work/src/scenes/gui_component_scenes/ui_info_display.tscn" type="PackedScene" id=3]
+[ext_resource path="res://work/src/scenes/gui_component_scenes/ui_inventory.tscn" type="PackedScene" id=4]
+
+[node name="GuiHud" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="Root" parent="." index="0"]
+mouse_filter = 2
+
+[node name="UIInfoDisplay" parent="Root" index="0" instance=ExtResource( 3 )]
+margin_bottom = 208.0
+
+[node name="UIInventory" parent="Root" index="1" instance=ExtResource( 4 )]
+
+[node name="SceneIdLab" type="Label" parent="Root" index="2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -7.0
+margin_right = 20.0
+margin_bottom = 7.0
+grow_horizontal = 2
+text = "SCENE"
+
+[node name="GamePlayInfoLab" type="Label" parent="Root" index="3"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -357.0
+margin_top = -230.0
+text = "PRESS SHIFT + S TO SAVE GAME
+
+PRESS SHIFT + L TO LOAD GAME
+
+PRESS SPACE TO CHANGE MIDDLE LABEL COLOR
+
+PRESS ESCAPE TO EXIT LEVEL
+
+CLICK LEFT MOUSE BUTTON TO ADD/REMOVE GODOTEE"
+
+[node name="SceneInfoLab" type="Label" parent="Root" index="4"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -357.0
+margin_top = -60.0
+text = "PRESS ? TO GO TO LEVEL ?"

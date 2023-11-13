@@ -1,26 +1,32 @@
 extends Node
 
+signal trigger_to_color(color)
 
 export var trigger_id: String = ""
 
 var triggered: bool = false setget _set_triggered
 
 
-func _ready():
-	_set_triggered(false)
-
-
 func _unhandled_input(event):	
 	if event is InputEventKey and event.pressed and not event.is_echo():
 		if event.scancode == KEY_SPACE:
 			self.triggered = !triggered
+			
+			
+func get_color() -> Color:
+	var output_color: Color
+	if triggered:
+		output_color = Color.red
+	else:
+		output_color = Color.white
+	
+	return output_color
 				
 				
 func _set_triggered(_triggered: bool):
 	triggered = _triggered
 	
-	var color = Color.red if triggered else Color.white
-	self.modulate = color
+	emit_signal("trigger_to_color", get_color())
 	
 	
 func _on_GameStateHelper_loading_data(data):

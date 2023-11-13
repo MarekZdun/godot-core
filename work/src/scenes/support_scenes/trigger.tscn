@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/game_state_helper/game_state_helper.gd" type="Script" id=1]
+[ext_resource path="res://work/src/scenes/support_scenes/trigger.gd" type="Script" id=2]
+
+[node name="Trigger" type="Node"]
+script = ExtResource( 2 )
+trigger_id = "main_trigger"
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource( 1 )
+global = true
+
+[connection signal="loading_data" from="Node" to="." method="_on_GameStateHelper_loading_data"]
+[connection signal="saving_data" from="Node" to="." method="_on_GameStateHelper_saving_data"]

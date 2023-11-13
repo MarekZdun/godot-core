@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://work/src/scenes/support_scenes/runtime.tscn" type="PackedScene" id=1]
+[ext_resource path="res://work/src/resources/runtime_data/runtime_collectable.tres" type="Resource" id=2]
+
+[node name="RuntimeCollectable" groups=["collectable"] instance=ExtResource( 1 )]
+modulate = Color( 0, 1, 0.486275, 1 )
+start_stats = ExtResource( 2 )

@@ -1,5 +1,5 @@
-class_name ResourceData
-extends Resource
+class_name SmartReference
+extends Reference
 
 export var filepath: String
 

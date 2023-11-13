@@ -6,7 +6,7 @@
 script = ExtResource( 1 )
 id = ""
 name = ""
-width = 1000
+width = 480
 height = 270
 fullscreen = false
 default = false

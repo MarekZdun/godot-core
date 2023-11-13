@@ -6,8 +6,8 @@
 script = ExtResource( 1 )
 id = ""
 name = ""
-width = 480
-height = 270
+width = 1000
+height = 600
 fullscreen = false
 default = true
 stretch_mode = 0

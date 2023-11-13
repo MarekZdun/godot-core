@@ -34,7 +34,7 @@ class MainMenuState extends StateMachine.State:
 			if event.scancode == KEY_ESCAPE:
 				target.get_tree().quit()
 				
-			elif event.scancode == KEY_L:
+			elif event.shift and event.scancode == KEY_L:
 				state_machine.get_ref().transition("load_saved_level")
 		
 		
@@ -42,15 +42,23 @@ class MainMenuState extends StateMachine.State:
 		if button_play_menu_clicked:
 			button_play_menu_clicked = false
 			
+			var viewport_size = target.get_viewport().size
+			var inventory_data = InventoryData.new()
+			inventory_data.add_item("long_sword", 3)
+			inventory_data.add_item("short_sword", 1)
+			target.next_scene_id = "res://work/src/scenes/main_scenes/scene_1.tscn"
+			GameStateService.new_game()
+			GameStateService.set_global_state_value("stats", ActorResource.new())
+			GameStateService.set_global_state_value("actor_start_pos", Vector2(viewport_size.x/2, viewport_size.y/2))
+			GameStateService.set_global_state_value("inventory_data", inventory_data)
+			
 			state_machine.get_ref().transition("change_level")
 		
 		
 	func _on_enter_state():
 		target.gui_main_menu = GuiManager.get_gui(GuiManager.add_gui("gui_main_menu", 1, {}))
 		target.gui_main_menu.connect("button_play_game_click", self, "_on_button_play_game_clicked")
-		target.next_scene_id = "res://work/src/scenes/main_scenes/scene_1.tscn"
-		
-		GameStateService.new_game()
+
 		
 	func _on_leave_state():
 		target.gui_main_menu.disconnect("button_play_game_click", self, "_on_button_play_game_clicked")
@@ -111,17 +119,20 @@ class PlayLevelState extends StateMachine.State:
 
 	func _input(event):
 		if event is InputEventKey and event.pressed:
-			if event.scancode == KEY_S:
+			if event.shift and event.scancode == KEY_S:
 				target.save_game()
 				
-			elif event.scancode == KEY_L:
+			elif event.shift and event.scancode == KEY_L:
 				state_machine.get_ref().transition("load_saved_level")
 		
 		
 	func _process(_delta: float):
 		if exit_level:
 			exit_level = false
+			
 			SceneManager.change_scene("")
+			GuiManager.destroy_gui(target.gui_hud.id)
+			
 			state_machine.get_ref().transition("main_menu")
 			
 		if go_to_next_level:

@@ -8,15 +8,18 @@ export var window_manager: Resource
 var next_scene_id: String
 var state_machine: StateMachine
 
-var gui_main_menu: CanvasLayer = null
-var gui_curtain: CanvasLayer = null
-var gui_progress: CanvasLayer = null
+var gui_main_menu: CanvasLayer
+var gui_curtain: CanvasLayer
+var gui_progress: CanvasLayer
+var gui_hud: CanvasLayer
 
 onready var active_scene_container = $ActiveSceneContainer
 onready var smf = StateMachineFactory.new()
 
 
 func _ready():
+	randomize()
+	
 	WindowManager.load(window_manager)
 	
 	SceneManager.connect("scene_transitioning", GameStateService, "on_scene_transitioning")

@@ -54,7 +54,7 @@ class CurtainAppearState extends StateMachine.State:
 		GuiManager.disconnect("manager_gui_loaded", self, "_on_gui_on_screen")
 		
 		if is_instance_valid(target.main.gui_main_menu):
-			GuiManager.destroy_gui(target.main.gui_main_menu.id, {})
+			GuiManager.destroy_gui(target.main.gui_main_menu.id)
 
 
 	func _on_gui_on_screen(gui):
@@ -180,7 +180,8 @@ class ProgressDisappearState extends StateMachine.State:
 
 class LoadSavedLevelState extends StateMachine.State:
 	var scene_loaded: bool = false
-
+	var scene: Node
+	
 
 	func _init():
 		physics_process_enabled = false
@@ -190,6 +191,13 @@ class LoadSavedLevelState extends StateMachine.State:
 	func _process(_delta: float):
 		if scene_loaded:
 			scene_loaded = false
+			
+			if target.main.gui_hud == null or not is_instance_valid(target.main.gui_hud):
+				var gui_hud_id = GuiManager.add_gui("gui_hud", 0)
+				target.main.gui_hud = GuiManager.get_gui(gui_hud_id)
+				
+			if scene.has_method("setup_hud"):
+				scene.setup_hud(target.main.gui_hud)
 			
 			state_machine.get_ref().transition("progress_disappear")
 
@@ -211,7 +219,8 @@ class LoadSavedLevelState extends StateMachine.State:
 		SceneManager.get_node("ResourceLoaderMultithread").disconnect("update_progress", target.main.gui_progress, "_on_progress_changed")
 
 
-	func _on_scene_ready(scene: Node):
+	func _on_scene_ready(p_scene: Node):
+		scene = p_scene
 		scene_loaded = true
 		
 #---------------------------------------------------------------------------------------------------
