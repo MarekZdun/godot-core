@@ -1,5 +1,5 @@
 # Core(Godot 4.1 version)
-Demonstration of changing scenes with transitions effects including load and write game state capability.
+Demonstration of changing scenes with transitions effects including load and write game state capability in Godot Engine.
 
 Looking for a Godot 3.5 version? [See godot 3.5 branch](https://github.com/MarekZdun/Core/tree/3.5).
 
