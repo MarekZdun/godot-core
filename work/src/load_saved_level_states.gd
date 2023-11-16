@@ -196,6 +196,8 @@ class LoadSavedLevelState extends StateMachine.State:
 				var gui_hud_id = GuiManager.add_gui("gui_hud", 0)
 				target.main.gui_hud = GuiManager.get_gui(gui_hud_id)
 				
+			target.main.gui_hud.ui_inventory.inventory_data = GameStateService.get_global_state_value("inventory_data")
+				
 			if scene.has_method("setup_hud"):
 				scene.setup_hud(target.main.gui_hud)
 			

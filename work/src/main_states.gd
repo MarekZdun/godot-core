@@ -42,8 +42,8 @@ class MainMenuState extends StateMachine.State:
 		if button_play_menu_clicked:
 			button_play_menu_clicked = false
 			
-			var viewport_size = target.get_viewport().size
-			var inventory_data = InventoryData.new()
+			var viewport_size: Vector2 = target.get_viewport().size
+			var inventory_data := InventoryData.new()
 			inventory_data.add_item("long_sword", 3)
 			inventory_data.add_item("short_sword", 1)
 			target.next_scene_id = "res://work/src/scenes/main_scenes/scene_1.tscn"
