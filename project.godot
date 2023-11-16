@@ -6,160 +6,13 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[ {
-"base": "SmartResource",
-"class": "ActorResource",
-"language": "GDScript",
-"path": "res://work/src/resources/actor_resource.gd"
-}, {
-"base": "Node",
-"class": "ChangeLevel",
-"language": "GDScript",
-"path": "res://work/src/change_level.gd"
-}, {
-"base": "Reference",
-"class": "ChangeLevelStates",
-"language": "GDScript",
-"path": "res://work/src/change_level_states.gd"
-}, {
-"base": "Object",
-"class": "FileUtil",
-"language": "GDScript",
-"path": "res://utils/file_util.gd"
-}, {
-"base": "Node",
-"class": "GameStateHelper",
-"language": "GDScript",
-"path": "res://addons/game_state_helper/game_state_helper.gd"
-}, {
-"base": "SmartResource",
-"class": "InventoryData",
-"language": "GDScript",
-"path": "res://work/src/resources/inventory_data.gd"
-}, {
-"base": "SmartResource",
-"class": "ItemData",
-"language": "GDScript",
-"path": "res://work/src/resources/item_data.gd"
-}, {
-"base": "Node",
-"class": "LoadSavedLevel",
-"language": "GDScript",
-"path": "res://work/src/load_saved_level.gd"
-}, {
-"base": "Reference",
-"class": "LoadSavedLevelStates",
-"language": "GDScript",
-"path": "res://work/src/load_saved_level_states.gd"
-}, {
-"base": "Reference",
-"class": "MainStates",
-"language": "GDScript",
-"path": "res://work/src/main_states.gd"
-}, {
-"base": "Object",
-"class": "NodeUtil",
-"language": "GDScript",
-"path": "res://utils/node_util.gd"
-}, {
-"base": "CanvasLayer",
-"class": "ProxyGui",
-"language": "GDScript",
-"path": "res://addons/gui_manager/gui.gd"
-}, {
-"base": "Control",
-"class": "ProxyGuiTransition",
-"language": "GDScript",
-"path": "res://addons/gui_manager/transition.gd"
-}, {
-"base": "CanvasLayer",
-"class": "ProxyScene",
-"language": "GDScript",
-"path": "res://addons/scene_manager/proxy_scene.gd"
-}, {
-"base": "SmartResource",
-"class": "RuntimeResource",
-"language": "GDScript",
-"path": "res://work/src/resources/runtime_resource.gd"
-}, {
-"base": "Object",
-"class": "SmartJSONParser",
-"language": "GDScript",
-"path": "res://utils/smart_JSON_parser.gd"
-}, {
-"base": "Reference",
-"class": "SmartReference",
-"language": "GDScript",
-"path": "res://utils/smart_reference.gd"
-}, {
-"base": "Resource",
-"class": "SmartResource",
-"language": "GDScript",
-"path": "res://utils/smart_resource.gd"
-}, {
-"base": "Resource",
-"class": "StateMachine",
-"language": "GDScript",
-"path": "res://addons/fsm/StateMachine.gd"
-}, {
-"base": "Resource",
-"class": "StateMachineFactory",
-"language": "GDScript",
-"path": "res://addons/fsm/StateMachineFactory.gd"
-}, {
-"base": "Control",
-"class": "UIItem",
-"language": "GDScript",
-"path": "res://work/src/scenes/gui_component_scenes/ui_item.gd"
-}, {
-"base": "Resource",
-"class": "ViewResource",
-"language": "GDScript",
-"path": "res://addons/gs_window_manager/resources/view_resource.gd"
-}, {
-"base": "Resource",
-"class": "WindowManagerResource",
-"language": "GDScript",
-"path": "res://addons/gs_window_manager/resources/window_manager_resource.gd"
-}, {
-"base": "Resource",
-"class": "WindowResource",
-"language": "GDScript",
-"path": "res://addons/gs_window_manager/resources/window_resource.gd"
-} ]
-_global_script_class_icons={
-"ActorResource": "",
-"ChangeLevel": "",
-"ChangeLevelStates": "",
-"FileUtil": "",
-"GameStateHelper": "res://addons/game_state_helper/icon_game_state_helper.svg",
-"InventoryData": "",
-"ItemData": "",
-"LoadSavedLevel": "",
-"LoadSavedLevelStates": "",
-"MainStates": "",
-"NodeUtil": "",
-"ProxyGui": "",
-"ProxyGuiTransition": "",
-"ProxyScene": "",
-"RuntimeResource": "",
-"SmartJSONParser": "",
-"SmartReference": "",
-"SmartResource": "",
-"StateMachine": "",
-"StateMachineFactory": "",
-"UIItem": "",
-"ViewResource": "",
-"WindowManagerResource": "",
-"WindowResource": ""
-}
+config_version=5
 
 [application]
 
 config/name="Core"
 run/main_scene="res://work/src/main.tscn"
+config/features=PackedStringArray("4.1")
 config/icon="res://icon.png"
 
 [autoload]
@@ -172,19 +25,19 @@ ItemDatabase="*res://autoloads/item_database.gd"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/game_state_helper/plugin.cfg", "res://addons/gui_manager/plugin.cfg", "res://addons/scene_manager/plugin.cfg" )
+enabled=PackedStringArray("res://addons/game_state_helper/plugin.cfg", "res://addons/gui_manager/plugin.cfg", "res://addons/scene_manager/plugin.cfg")
 
 [input]
 
 next_size={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777246,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194334,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
 }
 prev-size={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777246,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":true,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194334,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
 }
 
 [physics]
@@ -193,4 +46,5 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
-environment/default_environment="res://default_env.tres"
+renderer/rendering_method="gl_compatibility"
+environment/defaults/default_environment="res://default_env.tres"

@@ -1,10 +1,10 @@
 extends ProxyGui
 
-onready var ui_info_display = $Root/UIInfoDisplay
-onready var ui_inventory = $Root/UIInventory
-onready var scene_id_lab = $Root/SceneIdLab
-onready var game_play_info_lab = $Root/GamePlayInfoLab
-onready var scene_info_lab = $Root/SceneInfoLab
+@onready var ui_info_display = $Root/UIInfoDisplay
+@onready var ui_inventory = $Root/UIInventory
+@onready var scene_id_lab = $Root/SceneIdLab
+@onready var game_play_info_lab = $Root/GamePlayInfoLab
+@onready var scene_info_lab = $Root/SceneInfoLab
 
 
 func set_scene_id_lab_text(text: String) -> void:

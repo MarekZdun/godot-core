@@ -1,8 +1,8 @@
-extends Sprite
+extends Sprite2D
 
-export var start_stats: Resource
+@export var start_stats: Resource
 
-var stats: RuntimeResource setget set_stats
+var stats: RuntimeResource: set = set_stats
 
 
 func setup(pos: Vector2):

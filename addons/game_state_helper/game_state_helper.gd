@@ -1,4 +1,4 @@
-tool
+@tool
 class_name GameStateHelper, "res://addons/game_state_helper/icon_game_state_helper.svg"
 extends Node
 
@@ -35,13 +35,13 @@ class SaveFreedInstancedChildScene:
 
 
 # list of property names to save
-export (Array, String) var save_properties := []
+@export (Array, String) var save_properties := []
 # check this property (make true) if the parent is dynamically created during your game
-export var dynamic_instance := false setget _set_dynamic_instance
+@export var dynamic_instance := false: set = _set_dynamic_instance
 # causes the data to be saved/loaded to the global game state dictionary
 #  otherwise state is saved/loaded on a per-scene basis
-export var global := false setget _set_global
-export var debug := false
+@export var global := false: set = _set_global
+@export var debug := false
 
 
 func _set_dynamic_instance(value: bool) -> void:

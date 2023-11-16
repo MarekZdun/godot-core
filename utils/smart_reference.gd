@@ -1,7 +1,7 @@
 class_name SmartReference
-extends Reference
+extends RefCounted
 
-export var filepath: String
+@export var filepath: String
 
 
 func _init():

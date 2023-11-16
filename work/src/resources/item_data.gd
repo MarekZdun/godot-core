@@ -5,7 +5,7 @@ extends SmartResource
 
 # We use this unique id to retrieve an item's data and, for example, display it in the inventory.
 # See ItemDatabase.gd and Inventory.gd to see how we use this.
-export var unique_id := ""
-export var display_name := ""
-export var description := ""
-export var icon: Texture
+@export var unique_id := ""
+@export var display_name := ""
+@export var description := ""
+@export var icon: Texture2D

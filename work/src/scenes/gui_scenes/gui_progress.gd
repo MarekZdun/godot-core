@@ -1,7 +1,7 @@
 extends ProxyGui
 
 
-onready var progress_bar = get_node("Root/ProgressBar")
+@onready var progress_bar = get_node("Root/ProgressBar")
 
 
 func update_progress_bar(progress: float) -> void:

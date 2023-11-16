@@ -1,12 +1,12 @@
 extends Control
 
-onready var label := $Label
+@onready var label := $Label
 
 var _hide_rect: Rect2
 
 
 func _ready() -> void:
-	set_as_toplevel(true)
+	set_as_top_level(true)
 	set_process(false)
 	
 	
@@ -16,17 +16,17 @@ func _process(_delta: float) -> void:
 
 
 func hide() -> void:
-	.hide()
+	super.hide()
 	set_process(false)
 
 
 func show() -> void:
-	.show()
+	super.show()
 	_hide_rect = get_global_rect().grow(40.0)
 	set_process(true)
 
 
 func display(text: String, global_position: Vector2) -> void:
 	label.text = text
-	rect_position = global_position
+	position = global_position
 	show()

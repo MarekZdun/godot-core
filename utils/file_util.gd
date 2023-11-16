@@ -109,7 +109,7 @@ static func load_data_resource(file_path: String, default_value = null) -> Resou
 		printerr("Couldn't read file " + file_path)
 		return default_value
 
-	var data := file.get_buffer(file.get_len())
+	var data := file.get_buffer(file.get_length())
 	file.close()
 
 	# Then, we generate a random file path that's not in Godot's cache.
@@ -132,7 +132,7 @@ static func load_data_resource(file_path: String, default_value = null) -> Resou
 	save.take_over_path(file_path)
 
 	# We delete the temporary file.
-	var directory := Directory.new()
+	var directory := DirAccess.new()
 	directory.remove(tmp_file_path)
 	return save
 	
@@ -145,7 +145,9 @@ static func load_data_JSON(file_path: String, default_value = {}) -> Dictionary:
 	var json_text = load_text(file_path)
 	if json_text == "":
 		return default_value
-	var json_data = JSON.parse(json_text)
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(json_text)
+	var json_data = test_json_conv.get_data()
 	if json_data.error != OK:
 		print("error parsing data: %s" % json_data.error_string)
 		print(json_data.error_string)
@@ -158,7 +160,9 @@ static func load_encrypted_data_JSON(file_path: String, password: String = "pass
 	var json_text = load_encrypted_text(file_path, password, default_value)
 	if json_text == "":
 		return default_value
-	var json_data = JSON.parse(json_text)
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(json_text)
+	var json_data = test_json_conv.get_data()
 	if json_data.error != OK:
 		print("error parsing data: %s" % json_data.error_string)
 		print(json_data.error_string)
@@ -169,14 +173,14 @@ static func load_encrypted_data_JSON(file_path: String, password: String = "pass
 	
 static func save_data_JSON(file_path: String, data: Dictionary, indent: String = "") -> int:
 	if indent != "":
-		return save_text(file_path, JSON.print(data, indent))
-	return save_text(file_path, to_json(data))
+		return save_text(file_path, JSON.stringify(data, indent))
+	return save_text(file_path, JSON.new().stringify(data))
 	
 	
 static func save_encrypted_data_JSON(file_path: String, data: Dictionary, password: String = "pass", indent: String = "") -> int:
 	if indent != "":
-		return save_encrypted_text(file_path, JSON.print(data, indent), password)
-	return save_encrypted_text(file_path, to_json(data), password)
+		return save_encrypted_text(file_path, JSON.stringify(data, indent), password)
+	return save_encrypted_text(file_path, JSON.new().stringify(data), password)
 	
 	
 static func make_random_path() -> String:

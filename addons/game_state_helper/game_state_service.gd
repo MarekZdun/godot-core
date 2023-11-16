@@ -29,7 +29,7 @@ var _skip_next_scene_transition_save := false
 
 func _ready():
 	# monitor whenever a node is added in the tree - we can tell when a new scene is loaded this way
-	if OK != get_tree().connect("node_added", self, "_on_scene_tree_node_added"):
+	if OK != get_tree().connect("node_added", Callable(self, "_on_scene_tree_node_added")):
 		printerr("GameStateService: could not connect to scene tree node_added signal!")
 	
 	# the main scene has already been added to the tree at this point - so process it now
@@ -46,7 +46,7 @@ Creates a json file with the raw game state dictionary data.  This is used for d
 """
 func dump_game_state() -> void:
 	var file_name = "user://game_state_dump_%s.json" % _get_date_time_string()
-	var json_string = JSON.print(_game_state, "\t")
+	var json_string = JSON.stringify(_game_state, "\t")
 	
 	var f = File.new()
 	f.open(file_name, File.WRITE)
@@ -61,7 +61,7 @@ func get_game_state_string(refresh_state: bool = false) -> String:
 	if refresh_state:
 		#fake a scene transition to force game state to be updated
 		on_scene_transitioning("")
-	return JSON.print(_game_state, "\t")
+	return JSON.stringify(_game_state, "\t")
 
 """
 Gets a value from the global game state.
@@ -106,14 +106,14 @@ func load_game_state(path: String, scene_transition_func: FuncRef, password: Str
 		if use_smart_parser:
 			_game_state = SmartJSONParser.deserialize_variant_data(FileUtil.load_data_JSON(path))
 		else:
-			_game_state = str2var(FileUtil.load_text(path))
+			_game_state = str_to_var(FileUtil.load_text(path))
 #			_game_state = FileUtil.load_data(path)
 	
 	else:
 		if use_smart_parser:
 			_game_state = SmartJSONParser.deserialize_variant_data(FileUtil.load_encrypted_data_JSON(path, password))
 		else:
-			_game_state = str2var(FileUtil.load_encrypted_text(path, password))
+			_game_state = str_to_var(FileUtil.load_encrypted_text(path, password))
 	#		_game_state = FileUtil.load_encrypted_data(path, password)
 
 	_skip_next_scene_transition_save = true
@@ -151,14 +151,14 @@ func save_game_state(path: String, password: String = "Q6YU2eXCWN$e&uhS", use_sm
 		if use_smart_parser:
 			status = FileUtil.save_data_JSON(path, SmartJSONParser.serialize_variant_data(_game_state), "\t")
 		else:
-			status = FileUtil.save_text(path, var2str(_game_state))
+			status = FileUtil.save_text(path, var_to_str(_game_state))
 #			status = FileUtil.save_data(path, _game_state)
 
 	else:
 		if use_smart_parser:
 			status = FileUtil.save_encrypted_data_JSON(path, SmartJSONParser.serialize_variant_data(_game_state), password)
 		else:
-			status = FileUtil.save_encrypted_text(path, var2str(_game_state), password)
+			status = FileUtil.save_encrypted_text(path, var_to_str(_game_state), password)
 #			status = FileUtil.save_encrypted_data(path, _game_state, password)
 		
 	_save_save_file_hash(path)
@@ -225,14 +225,14 @@ func _handle_scene_load(node: Node) -> void:
 	_freed_instanced_scene_save_and_loads.clear()
 	
 	var scene_id: String = _get_scene_id(node)
-	if scene_id.empty():
+	if scene_id.is_empty():
 		return
 	
 	# store path to scene file for the now current scene
 	_game_state["meta_data"]["current_scene_path"] = node.filename
 	
 	# wait for scene to be fully loaded
-	yield(node, "ready")
+	await node.ready
 	
 	# connect to helper node freed signal - for handling instanced child scenes that are freed at runtime
 	_connect_to_GameStateHelper_freed_signal()
@@ -318,7 +318,7 @@ func _instance_scene(parent: Node, node_data: Dictionary, id: String) -> void:
 	if resource == null:
 		printerr("GameStateService: Could not instance node:  resource not found.   Save file id: %s, scene path: %s" % [id, node_data[GameStateHelper.GAME_STATE_KEY_INSTANCE_SCENE]])
 		return
-	var instance = resource.instance()
+	var instance = resource.instantiate()
 	parent.add_child(instance)
 	var game_state_helper =  _get_game_state_helper(instance)
 	if game_state_helper != null:
@@ -347,8 +347,8 @@ instanced child scene is freed at runtime.
 """
 func _connect_to_GameStateHelper_freed_signal():
 	for save_and_load in get_tree().get_nodes_in_group(GameStateHelper.NODE_GROUP):
-		if !save_and_load.is_connected("instanced_child_scene_freed", self, "_on_instanced_child_scene_freed"):
-			save_and_load.connect("instanced_child_scene_freed", self, "_on_instanced_child_scene_freed")
+		if !save_and_load.is_connected("instanced_child_scene_freed", Callable(self, "_on_instanced_child_scene_freed")):
+			save_and_load.connect("instanced_child_scene_freed", Callable(self, "_on_instanced_child_scene_freed"))
 
 
 """
@@ -387,7 +387,7 @@ func on_scene_transitioning(_new_scene_path = "") -> void:
 		return
 
 	var scene_id: String = _get_scene_id(active_scene)
-	if scene_id.empty():
+	if scene_id.is_empty():
 		return
 
 	var scene_data = _get_scene_data(scene_id, active_scene)

@@ -5,16 +5,16 @@ signal health_changed(health)
 signal runtime_collected(runtime_reward)
 signal global_position_changed(global_position)
 
-export var display_name := "Actor"
-export var global_position: Vector2 setget set_global_position
-export var run_speed := 600.0
-export var level := 1
-export var experience := 0
-export var health := 100 setget set_health
-export var reward_runtime_collected := 0 setget set_reward_runtime_collected
-export var strength := 5
-export var endurance := 5
-export var intelligence := 5
+@export var display_name := "Actor"
+@export var global_position: Vector2: set = set_global_position
+@export var run_speed := 600.0
+@export var level := 1
+@export var experience := 0
+@export var health := 100: set = set_health
+@export var reward_runtime_collected := 0: set = set_reward_runtime_collected
+@export var strength := 5
+@export var endurance := 5
+@export var intelligence := 5
 
 
 func set_health(new_health: int) -> void:

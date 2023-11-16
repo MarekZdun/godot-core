@@ -2,23 +2,23 @@ extends Node
 
 signal trigger_to_color(color)
 
-export var trigger_id: String = ""
+@export var trigger_id: String = ""
 
-var triggered: bool = false setget _set_triggered
+var triggered: bool = false: set = _set_triggered
 
 
 func _unhandled_input(event):	
 	if event is InputEventKey and event.pressed and not event.is_echo():
-		if event.scancode == KEY_SPACE:
+		if event.keycode == KEY_SPACE:
 			self.triggered = !triggered
 			
 			
 func get_color() -> Color:
 	var output_color: Color
 	if triggered:
-		output_color = Color.red
+		output_color = Color.RED
 	else:
-		output_color = Color.white
+		output_color = Color.WHITE
 	
 	return output_color
 				
@@ -35,7 +35,7 @@ func _on_GameStateHelper_loading_data(data):
 		
 		
 func _on_GameStateHelper_saving_data(data):
-	if trigger_id.empty():
+	if trigger_id.is_empty():
 		printerr("Trigger: unable to save data - no trigger id.  %s" % get_path())
 		return
 	data[trigger_id] = triggered

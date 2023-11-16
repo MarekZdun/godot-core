@@ -22,11 +22,11 @@ __meta__ = {
 }
 
 [node name="PlayGame" type="Button" parent="Root/ColorRect/CenterContainer" index="0"]
-margin_left = 437.0
-margin_top = 275.0
-margin_right = 587.0
-margin_bottom = 325.0
-rect_min_size = Vector2( 150, 50 )
+offset_left = 437.0
+offset_top = 275.0
+offset_right = 587.0
+offset_bottom = 325.0
+custom_minimum_size = Vector2( 150, 50 )
 text = "PLAY GAME"
 
 [connection signal="pressed" from="Root/ColorRect/CenterContainer/PlayGame" to="." method="_on_PlayGame_pressed"]

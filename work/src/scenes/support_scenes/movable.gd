@@ -1,6 +1,6 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-var stats: ActorResource setget set_stats
+var stats: ActorResource: set = set_stats
 
 
 func _ready() -> void:
@@ -19,7 +19,8 @@ func _process(delta):
 	if Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_S):
 		velocity.y += 1
 		
-	move_and_slide(velocity.normalized() * stats.run_speed)
+	set_velocity(velocity.normalized() * stats.run_speed)
+	move_and_slide()
 	
 	stats.global_position = global_position
 

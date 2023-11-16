@@ -4,19 +4,19 @@ class_name StateMachine
 
 # The state machine's target object, node, etc
 #var target = null setget set_target, get_target
-var target = null setget set_target
+var target = null: set = set_target
 
 # Dictionary of states by state id
 #var states = {} setget set_states, get_states
-var states = {} setget set_states
+var states = {}: set = set_states
 
 # Dictionary of valid state transitions
 #var transitions = {} setget set_transitions, get_transitions
-var transitions = {} setget set_transitions
+var transitions = {}: set = set_transitions
 
 # Reference to current state object
 #var current_state = null setget set_current_state, get_current_state
-var current_state = null setget set_current_state
+var current_state = null: set = set_current_state
 
 # Internal current state object
 var _current_state = State.new()

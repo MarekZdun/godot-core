@@ -1,7 +1,7 @@
 class_name SmartResource
 extends Resource
 
-export var filepath: String
+@export var filepath: String
 
 
 func _init():

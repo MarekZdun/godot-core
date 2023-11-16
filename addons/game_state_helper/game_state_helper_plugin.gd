@@ -1,4 +1,4 @@
-tool
+@tool
 extends EditorPlugin
 
 
@@ -10,5 +10,5 @@ func enable_plugin():
 	add_autoload_singleton(GAME_STATE_SERVICE_AUTLOAD_NAME, GAME_STATE_SERVICE_PATH)
 
 
-func disable_plugin():
+func _disable_plugin():
 	remove_autoload_singleton(GAME_STATE_SERVICE_AUTLOAD_NAME)

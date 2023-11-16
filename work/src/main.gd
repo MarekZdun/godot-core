@@ -3,7 +3,7 @@ extends Node
 
 const SAVE_GAME_FOLDER = "user://save_games"
 
-export var window_manager: Resource
+@export var window_manager: Resource
 
 var next_scene_id: String
 var state_machine: StateMachine
@@ -13,8 +13,8 @@ var gui_curtain: CanvasLayer
 var gui_progress: CanvasLayer
 var gui_hud: CanvasLayer
 
-onready var active_scene_container = $ActiveSceneContainer
-onready var smf = StateMachineFactory.new()
+@onready var active_scene_container = $ActiveSceneContainer
+@onready var smf = StateMachineFactory.new()
 
 
 func _ready():
@@ -22,7 +22,7 @@ func _ready():
 	
 	WindowManager.load(window_manager)
 	
-	SceneManager.connect("scene_transitioning", GameStateService, "on_scene_transitioning")
+	SceneManager.connect("scene_transitioning", Callable(GameStateService, "on_scene_transitioning"))
 	
 	state_machine = smf.create({
 		"target": self,
@@ -59,7 +59,7 @@ func _process(delta):
 		
 		
 func save_game():
-	var dir := Directory.new()
+	var dir := DirAccess.new()
 	dir.make_dir_recursive(SAVE_GAME_FOLDER)
 	var save_game_file_name := SAVE_GAME_FOLDER + "/" + "save" + ".tres"
 	GameStateService.save_game_state(save_game_file_name)

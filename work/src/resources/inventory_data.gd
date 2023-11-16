@@ -9,7 +9,7 @@ extends SmartResource
 # items' unique ids and values represent the owned amount.
 #
 # Note that dictionaries preserve their order in GDScript.
-export var items := {}
+@export var items := {}
 
 
 func add_item(unique_id: String, amount := 1) -> void:
