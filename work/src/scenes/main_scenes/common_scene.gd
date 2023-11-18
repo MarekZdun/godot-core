@@ -5,10 +5,10 @@ signal change_level(next_level_filepath)
 
 enum LevelKeys{LEVEL_KEY_NONE = 0, LEVEL_KEY_1 = KEY_1, LEVEL_KEY_2 = KEY_2}
 
-@export var next_level_filepath: String # (String, FILE, "*.tscn")
-@export var runtime_collectable_filepath: String # (String, FILE, "*.tscn")
-@export var runtime_collectable_trap_filepath: String # (String, FILE, "*.tscn")
-@export var runtime_trap_filepath: String # (String, FILE, "*.tscn")
+@export_file("*.tscn") var next_level_filepath: String
+@export_file("*.tscn") var runtime_collectable_filepath: String
+@export_file("*.tscn") var runtime_collectable_trap_filepath: String
+@export_file("*.tscn") var runtime_trap_filepath: String
 @export var next_level_actor_start_pos: Vector2
 @export var next_level_key: LevelKeys
 
@@ -45,10 +45,10 @@ func _unhandled_input(event):
 		
 		elif event.keycode == next_level_key:
 			GameStateService.set_global_state_value("actor_start_pos", next_level_actor_start_pos)
-			emit_signal("change_level", next_level_filepath)
+			change_level.emit(next_level_filepath)
 		
 		elif event.keycode == KEY_ESCAPE:
-			emit_signal("exit_level")
+			exit_level.emit()
 			
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:

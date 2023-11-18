@@ -12,7 +12,7 @@ func setup(pos: Vector2):
 		_stats.global_position = pos
 		_stats.reward = start_stats.reward
 		_stats.damage = start_stats.damage
-		self.stats = _stats
+		stats = _stats
 	
 	
 func set_stats(new_stats: RuntimeResource) -> void:

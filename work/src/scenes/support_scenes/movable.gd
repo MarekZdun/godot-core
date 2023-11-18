@@ -8,18 +8,19 @@ func _ready() -> void:
 
 
 func _process(delta):
-	var velocity = Vector2.ZERO
+	var v = Vector2.ZERO
 	
 	if Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_A):
-		velocity.x -= 1
+		v.x -= 1
 	if Input.is_key_pressed(KEY_UP) or Input.is_key_pressed(KEY_W):
-		velocity.y -= 1
+		v.y -= 1
 	if Input.is_key_pressed(KEY_RIGHT) or Input.is_key_pressed(KEY_D):
-		velocity.x += 1
+		v.x += 1
 	if Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_S):
-		velocity.y += 1
+		v.y += 1
 		
-	set_velocity(velocity.normalized() * stats.run_speed)
+	v = v.normalized() * stats.run_speed
+	set_velocity(v)
 	move_and_slide()
 	
 	stats.global_position = global_position

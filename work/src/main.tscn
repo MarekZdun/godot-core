@@ -10,7 +10,7 @@ window_manager = ExtResource("2")
 
 [node name="Node" type="Node" parent="."]
 script = ExtResource("3")
-save_properties = ["next_scene_id"]
+save_properties = Array[String](["next_scene_id"])
 global = true
 
 [node name="ActiveSceneContainer" type="Node" parent="."]

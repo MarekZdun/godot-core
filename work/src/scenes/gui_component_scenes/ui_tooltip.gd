@@ -12,21 +12,21 @@ func _ready() -> void:
 	
 func _process(_delta: float) -> void:
 	if not _hide_rect.has_point(get_global_mouse_position()):
-		hide()
+		_hide()
 
 
-func hide() -> void:
-	super.hide()
+func _hide() -> void:
+	hide()
 	set_process(false)
 
 
-func show() -> void:
-	super.show()
+func _show() -> void:
+	show()
 	_hide_rect = get_global_rect().grow(40.0)
 	set_process(true)
 
 
-func display(text: String, global_position: Vector2) -> void:
+func display(text: String, p_global_position: Vector2) -> void:
 	label.text = text
-	position = global_position
-	show()
+	position = p_global_position
+	_show()

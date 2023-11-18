@@ -1,22 +1,25 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://dorrcgamgy6eq"]
 
-[ext_resource path="res://addons/gui_manager/gui.tscn" type="PackedScene" id=1]
-[ext_resource path="res://work/src/scenes/gui_scenes/gui_hud.gd" type="Script" id=2]
-[ext_resource path="res://work/src/scenes/gui_component_scenes/ui_info_display.tscn" type="PackedScene" id=3]
-[ext_resource path="res://work/src/scenes/gui_component_scenes/ui_inventory.tscn" type="PackedScene" id=4]
+[ext_resource type="PackedScene" uid="uid://byc0phq142udx" path="res://addons/gui_manager/gui.tscn" id="1"]
+[ext_resource type="Script" path="res://work/src/scenes/gui_scenes/gui_hud.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://p8oiyhn2lqbw" path="res://work/src/scenes/gui_component_scenes/ui_info_display.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://dwftjapi708wt" path="res://work/src/scenes/gui_component_scenes/ui_inventory.tscn" id="4"]
 
-[node name="GuiHud" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[node name="GuiHud" instance=ExtResource("1")]
+script = ExtResource("2")
 
 [node name="Root" parent="." index="0"]
 mouse_filter = 2
 
-[node name="UIInfoDisplay" parent="Root" index="0" instance=ExtResource( 3 )]
+[node name="UIInfoDisplay" parent="Root" index="0" instance=ExtResource("3")]
 offset_bottom = 208.0
 
-[node name="UIInventory" parent="Root" index="1" instance=ExtResource( 4 )]
+[node name="UIInventory" parent="Root" index="1" instance=ExtResource("4")]
+layout_mode = 1
+grow_horizontal = 0
 
 [node name="SceneIdLab" type="Label" parent="Root" index="2"]
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -29,27 +32,31 @@ grow_horizontal = 2
 text = "SCENE"
 
 [node name="GamePlayInfoLab" type="Label" parent="Root" index="3"]
+layout_mode = 1
+anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -357.0
-offset_top = -230.0
+offset_left = -444.0
+offset_top = -165.0
+grow_horizontal = 0
+grow_vertical = 0
 text = "PRESS SHIFT + S TO SAVE GAME
-
 PRESS SHIFT + L TO LOAD GAME
-
 PRESS SPACE TO CHANGE MIDDLE LABEL COLOR
-
 PRESS ESCAPE TO EXIT LEVEL
-
 CLICK LEFT MOUSE BUTTON TO ADD/REMOVE GODOTEE"
 
 [node name="SceneInfoLab" type="Label" parent="Root" index="4"]
+layout_mode = 1
+anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -357.0
-offset_top = -60.0
+offset_left = -443.0
+offset_top = -38.0
+grow_horizontal = 0
+grow_vertical = 0
 text = "PRESS ? TO GO TO LEVEL ?"

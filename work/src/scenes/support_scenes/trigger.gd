@@ -10,7 +10,7 @@ var triggered: bool = false: set = _set_triggered
 func _unhandled_input(event):	
 	if event is InputEventKey and event.pressed and not event.is_echo():
 		if event.keycode == KEY_SPACE:
-			self.triggered = !triggered
+			triggered = !triggered
 			
 			
 func get_color() -> Color:
@@ -25,13 +25,12 @@ func get_color() -> Color:
 				
 func _set_triggered(_triggered: bool):
 	triggered = _triggered
-	
-	emit_signal("trigger_to_color", get_color())
+	trigger_to_color.emit(get_color())
 	
 	
 func _on_GameStateHelper_loading_data(data):
 	if data.has(trigger_id):
-		self.triggered = data[trigger_id]
+		triggered = data[trigger_id]
 		
 		
 func _on_GameStateHelper_saving_data(data):

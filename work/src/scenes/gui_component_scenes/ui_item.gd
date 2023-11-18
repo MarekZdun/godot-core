@@ -13,9 +13,9 @@ var item_unique_id := ""
 
 
 func _ready() -> void:
-	tooltip_timer.connect("timeout", Callable(self, "_request_tooltip"))
-	connect("mouse_entered", Callable(tooltip_timer, "start"))
-	connect("mouse_exited", Callable(tooltip_timer, "stop"))
+	tooltip_timer.timeout.connect(_request_tooltip)
+	mouse_entered.connect(tooltip_timer.start)
+	mouse_exited.connect(tooltip_timer.stop)
 
 
 func display_item(unique_id: String, amount: int) -> void:
@@ -29,4 +29,4 @@ func display_item(unique_id: String, amount: int) -> void:
 
 func _request_tooltip() -> void:
 	if item_unique_id:
-		emit_signal("tooltip_requested")
+		tooltip_requested.emit()

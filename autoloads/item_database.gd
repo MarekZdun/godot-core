@@ -2,7 +2,7 @@ extends Node
 #Remember to set _items_folder_path in static function!
 
 # Maps unique IDs of items to ItemData instances.
-var ITEMS := {}
+var ITEMS: Dictionary
 
 
 func _ready() -> void:
@@ -23,9 +23,8 @@ static func _load_items() -> Array:
 	var item_file_paths := []
 	var _items_folder_path := "res://work/src/resources/item_data/"
 
-	var directory := DirAccess.new()
-	var can_continue := directory.open(_items_folder_path) == OK
-	if not can_continue:
+	var directory := DirAccess.open(_items_folder_path)
+	if not directory:
 		print_debug('Could not open directory "%s"' % [_items_folder_path])
 		return item_file_paths
 
@@ -33,7 +32,7 @@ static func _load_items() -> Array:
 	var file_name := directory.get_next()
 	while file_name != "":
 		if file_name.get_extension() == "tres":
-			item_file_paths.append(_items_folder_path.plus_file(file_name))
+			item_file_paths.append(_items_folder_path.path_join(file_name))
 		file_name = directory.get_next()
 
 	var item_resources := []

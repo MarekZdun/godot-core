@@ -20,13 +20,13 @@ func _ready() -> void:
 		test_inventory_data.add_item("short_sword", 2)
 		set_inventory_data(test_inventory_data)
 
-	add_item_button.connect("pressed", Callable(self, "_add_random_item"))
-	remove_item_button.connect("pressed", Callable(self, "_remove_random_item"))
+	add_item_button.pressed.connect(_add_random_item)
+	remove_item_button.pressed.connect(_remove_random_item)
 
 
 func set_inventory_data(new_inventory_data: InventoryData) -> void:
 	if inventory_data != new_inventory_data:
-		new_inventory_data.connect("changed", Callable(self, "_update_items_display"))
+		new_inventory_data.changed.connect(_update_items_display)
 
 	inventory_data = new_inventory_data
 	_update_items_display()
@@ -40,7 +40,7 @@ func _update_items_display() -> void:
 		var ui_item: UIItem = ui_item_scene.instantiate()
 		item_grid.add_child(ui_item)
 		ui_item.display_item(item_unique_id, inventory_data.get_amount(item_unique_id))
-		ui_item.connect("tooltip_requested", Callable(self, "_on_tooltip_requested").bind(ui_item))
+		ui_item.tooltip_requested.connect(_on_tooltip_requested.bind(ui_item))
 
 
 func _on_tooltip_requested(ui_item: UIItem) -> void:

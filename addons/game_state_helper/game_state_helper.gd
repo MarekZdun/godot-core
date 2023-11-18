@@ -1,5 +1,6 @@
 @tool
-class_name GameStateHelper, "res://addons/game_state_helper/icon_game_state_helper.svg"
+@icon("res://addons/game_state_helper/icon_game_state_helper.svg")
+class_name GameStateHelper
 extends Node
 
 signal loading_data(data)
@@ -35,7 +36,7 @@ class SaveFreedInstancedChildScene:
 
 
 # list of property names to save
-@export (Array, String) var save_properties := []
+@export var save_properties:Array[String] = []
 # check this property (make true) if the parent is dynamically created during your game
 @export var dynamic_instance := false: set = _set_dynamic_instance
 # causes the data to be saved/loaded to the global game state dictionary
@@ -90,9 +91,10 @@ func save_data(data: Dictionary) -> void:
 	var active_scene: Node = null
 	if active_scene_container.get_child_count() > 0:
 		active_scene = active_scene_container.get_child(0)
+	
 	if !parent.owner and !global and parent != active_scene:
 		# no owner means the parent was instanced - save the scene file path so it can be re-instanced
-		node_data[GAME_STATE_KEY_INSTANCE_SCENE] = parent.filename
+		node_data[GAME_STATE_KEY_INSTANCE_SCENE] = parent.scene_file_path
 		
 	#save path - makes data easier to identifier in save file for debugging
 	# also used to find parent to instanced scenes
@@ -164,5 +166,3 @@ func _exit_tree():
 	var save_freed_object = SaveFreedInstancedChildScene.new(id, parent.get_path())
 	
 	emit_signal("instanced_child_scene_freed", save_freed_object)
-
-

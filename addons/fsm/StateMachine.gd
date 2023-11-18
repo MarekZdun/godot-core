@@ -3,19 +3,15 @@ extends Resource
 class_name StateMachine
 
 # The state machine's target object, node, etc
-#var target = null setget set_target, get_target
-var target = null: set = set_target
+var target: Object: set = set_target
 
 # Dictionary of states by state id
-#var states = {} setget set_states, get_states
-var states = {}: set = set_states
+var states: Dictionary
 
 # Dictionary of valid state transitions
-#var transitions = {} setget set_transitions, get_transitions
-var transitions = {}: set = set_transitions
+var transitions: Dictionary
 
 # Reference to current state object
-#var current_state = null setget set_current_state, get_current_state
 var current_state = null: set = set_current_state
 
 # Internal current state object
@@ -34,7 +30,7 @@ func get_target():
 	"""
 	return target
 
-func set_states(states: Array) -> void:
+func set_states_from_array(states: Array) -> void:
 	"""
 	Expects an array of state definitions to generate the dictionary of states
 	"""
@@ -48,7 +44,7 @@ func get_states() -> Dictionary:
 	"""
 	return states
 
-func set_transitions(transitions: Array) -> void:
+func set_transitions_from_array(transitions: Array) -> void:
 	"""
 	Expects an array of transition definitions to generate the dictionary of transitions
 	"""

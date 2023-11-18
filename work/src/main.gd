@@ -22,7 +22,7 @@ func _ready():
 	
 	WindowManager.load(window_manager)
 	
-	SceneManager.connect("scene_transitioning", Callable(GameStateService, "on_scene_transitioning"))
+	SceneManager.scene_transitioning.connect(GameStateService.on_scene_transitioning)
 	
 	state_machine = smf.create({
 		"target": self,
@@ -59,9 +59,8 @@ func _process(delta):
 		
 		
 func save_game():
-	var dir := DirAccess.new()
-	dir.make_dir_recursive(SAVE_GAME_FOLDER)
-	var save_game_file_name := SAVE_GAME_FOLDER + "/" + "save" + ".tres"
+	DirAccess.make_dir_recursive_absolute(SAVE_GAME_FOLDER)
+	var save_game_file_name := SAVE_GAME_FOLDER.path_join("save.tres")
 	GameStateService.save_game_state(save_game_file_name)
 
 

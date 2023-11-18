@@ -34,7 +34,7 @@ class MainMenuState extends StateMachine.State:
 			if event.keycode == KEY_ESCAPE:
 				target.get_tree().quit()
 				
-			elif event.shift and event.keycode == KEY_L:
+			elif event.shift_pressed and event.keycode == KEY_L:
 				state_machine.get_ref().transition("load_saved_level")
 		
 		
@@ -42,8 +42,8 @@ class MainMenuState extends StateMachine.State:
 		if button_play_menu_clicked:
 			button_play_menu_clicked = false
 			
-			var viewport_size = target.get_viewport().size
-			var inventory_data = InventoryData.new()
+			var viewport_size: Vector2 = target.get_viewport().size
+			var inventory_data := InventoryData.new()
 			inventory_data.add_item("long_sword", 3)
 			inventory_data.add_item("short_sword", 1)
 			target.next_scene_id = "res://work/src/scenes/main_scenes/scene_1.tscn"
@@ -57,11 +57,11 @@ class MainMenuState extends StateMachine.State:
 		
 	func _on_enter_state():
 		target.gui_main_menu = GuiManager.get_gui(GuiManager.add_gui("gui_main_menu", 1, {}))
-		target.gui_main_menu.connect("button_play_game_click", Callable(self, "_on_button_play_game_clicked"))
+		target.gui_main_menu.button_play_game_click.connect(_on_button_play_game_clicked)
 
 		
 	func _on_leave_state():
-		target.gui_main_menu.disconnect("button_play_game_click", Callable(self, "_on_button_play_game_clicked"))
+		target.gui_main_menu.button_play_game_click.disconnect(_on_button_play_game_clicked)
 
 
 	func _on_button_play_game_clicked():
@@ -94,11 +94,11 @@ class ChangeLevelState extends StateMachine.State:
 	func _on_enter_state():
 		change_level = ChangeLevel.new(target)
 		target.add_child(change_level)
-		change_level.connect("level_changed", Callable(self, "_on_level_changed"))
+		change_level.level_changed.connect(_on_level_changed)
 		
 		
 	func _on_leave_state():
-		change_level.disconnect("level_changed", Callable(self, "_on_level_changed"))
+		change_level.level_changed.disconnect(_on_level_changed)
 		change_level.queue_free()
 		
 
@@ -119,10 +119,10 @@ class PlayLevelState extends StateMachine.State:
 
 	func _input(event):
 		if event is InputEventKey and event.pressed:
-			if event.shift and event.keycode == KEY_S:
+			if event.shift_pressed and event.keycode == KEY_S:
 				target.save_game()
 				
-			elif event.shift and event.keycode == KEY_L:
+			elif event.shift_pressed and event.keycode == KEY_L:
 				state_machine.get_ref().transition("load_saved_level")
 		
 		
@@ -130,7 +130,7 @@ class PlayLevelState extends StateMachine.State:
 		if exit_level:
 			exit_level = false
 			
-			SceneManager.change_scene_to_file("")
+			SceneManager.change_scene("")
 			GuiManager.destroy_gui(target.gui_hud.id)
 			
 			state_machine.get_ref().transition("main_menu")
@@ -142,13 +142,13 @@ class PlayLevelState extends StateMachine.State:
 		
 		
 	func _on_enter_state():
-		SceneManager.current_scene.connect("exit_level", Callable(self, "_on_exit_level"))
-		SceneManager.current_scene.connect("change_level", Callable(self, "_on_change_to_next_level"))
+		SceneManager.current_scene.exit_level.connect(_on_exit_level)
+		SceneManager.current_scene.change_level.connect(_on_change_to_next_level)
 		
 		
 	func _on_leave_state():
-		SceneManager.current_scene.disconnect("exit_level", Callable(self, "_on_exit_level"))
-		SceneManager.current_scene.disconnect("change_level", Callable(self, "_on_change_to_next_level"))
+		SceneManager.current_scene.exit_level.disconnect(_on_exit_level)
+		SceneManager.current_scene.change_level.disconnect(_on_change_to_next_level)
 
 
 	func _on_exit_level():
@@ -185,11 +185,11 @@ class LoadSavedLevelState extends StateMachine.State:
 	func _on_enter_state():
 		load_saved_level = LoadSavedLevel.new(target)
 		target.add_child(load_saved_level)
-		load_saved_level.connect("level_loaded", Callable(self, "_on_level_loaded"))
+		load_saved_level.level_loaded.connect(_on_level_loaded)
 		
 		
 	func _on_leave_state():
-		load_saved_level.disconnect("level_loaded", Callable(self, "_on_level_loaded"))
+		load_saved_level.level_loaded.disconnect(_on_level_loaded)
 		load_saved_level.queue_free()
 		
 		

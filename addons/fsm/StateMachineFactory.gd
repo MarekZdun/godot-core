@@ -11,13 +11,13 @@ func create(config: Dictionary = {}) -> StateMachine:
 	var sm = StateMachine.new()
 
 	if "states" in config:
-		sm.set_states(config.states)
+		sm.set_states_from_array(config.states)
 
 	if "target" in config:
 		sm.set_target(config.target)
 
 	if "transitions" in config:
-		sm.set_transitions(config.transitions)
+		sm.set_transitions_from_array(config.transitions)
 
 	if "current_state" in config:
 		sm.set_current_state(config.current_state)

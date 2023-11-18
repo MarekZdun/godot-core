@@ -47,11 +47,11 @@ class CurtainAppearState extends StateMachine.State:
 		})
 		target.main.gui_curtain = GuiManager.get_gui(gui_curtain_id)
 		
-		GuiManager.connect("manager_gui_loaded", Callable(self, "_on_gui_on_screen"))
+		GuiManager.manager_gui_loaded.connect(_on_gui_on_screen)
 		
 		
 	func _on_leave_state():
-		GuiManager.disconnect("manager_gui_loaded", Callable(self, "_on_gui_on_screen"))
+		GuiManager.manager_gui_loaded.disconnect(_on_gui_on_screen)
 		
 		if is_instance_valid(target.main.gui_main_menu):
 			GuiManager.destroy_gui(target.main.gui_main_menu.id)
@@ -89,11 +89,11 @@ class ProgressAppearState extends StateMachine.State:
 		})
 		target.main.gui_progress = GuiManager.get_gui(gui_progress_id)
 		
-		GuiManager.connect("manager_gui_loaded", Callable(self, "_on_gui_on_screen"))
+		GuiManager.manager_gui_loaded.connect(_on_gui_on_screen)
 		
 		
 	func _on_leave_state():
-		GuiManager.disconnect("manager_gui_loaded", Callable(self, "_on_gui_on_screen"))
+		GuiManager.manager_gui_loaded.disconnect(_on_gui_on_screen)
 
 
 	func _on_gui_on_screen(gui):
@@ -127,11 +127,11 @@ class CurtainDisappearState extends StateMachine.State:
 			"gui_opacity_end": 0.0
 		})
 		
-		GuiManager.connect("manager_gui_unloaded", Callable(self, "_on_gui_off_screen"))
+		GuiManager.manager_gui_unloaded.connect(_on_gui_off_screen)
 		
 		
 	func _on_leave_state():
-		GuiManager.disconnect("manager_gui_unloaded", Callable(self, "_on_gui_off_screen"))
+		GuiManager.manager_gui_unloaded.disconnect(_on_gui_off_screen)
 
 
 	func _on_gui_off_screen(gui_id):
@@ -165,11 +165,11 @@ class ProgressDisappearState extends StateMachine.State:
 			"gui_opacity_end": 0.0
 		})
 		
-		GuiManager.connect("manager_gui_unloaded", Callable(self, "_on_gui_off_screen"))
+		GuiManager.manager_gui_unloaded.connect(_on_gui_off_screen)
 		
 		
 	func _on_leave_state():
-		GuiManager.disconnect("manager_gui_unloaded", Callable(self, "_on_gui_off_screen"))
+		GuiManager.manager_gui_unloaded.disconnect(_on_gui_off_screen)
 
 
 	func _on_gui_off_screen(gui_id):
@@ -205,19 +205,17 @@ class LoadLevelState extends StateMachine.State:
 
 
 	func _on_enter_state():
-		SceneManager.connect("manager_scene_loaded", Callable(target.main, "_on_scene_ready"))
-		SceneManager.connect("manager_scene_loaded", Callable(self, "_on_scene_ready"))
-		SceneManager.get_node("ResourceLoaderInteractive").connect("update_progress", Callable(target.main.gui_progress, "_on_progress_changed"))
-		SceneManager.get_node("ResourceLoaderMultithread").connect("update_progress", Callable(target.main.gui_progress, "_on_progress_changed"))
+		SceneManager.manager_scene_loaded.connect(target.main._on_scene_ready)
+		SceneManager.manager_scene_loaded.connect(_on_scene_ready)
+		SceneManager.update_progress.connect(target.main.gui_progress._on_progress_changed)
 		
-		SceneManager.change_scene_to_file(target.main.next_scene_id)
+		SceneManager.change_scene(target.main.next_scene_id)
 		
 		
 	func _on_leave_state():
-		SceneManager.disconnect("manager_scene_loaded", Callable(target.main, "_on_scene_ready"))
-		SceneManager.disconnect("manager_scene_loaded", Callable(self, "_on_scene_ready"))
-		SceneManager.get_node("ResourceLoaderInteractive").disconnect("update_progress", Callable(target.main.gui_progress, "_on_progress_changed"))
-		SceneManager.get_node("ResourceLoaderMultithread").disconnect("update_progress", Callable(target.main.gui_progress, "_on_progress_changed"))
+		SceneManager.manager_scene_loaded.disconnect(target.main._on_scene_ready)
+		SceneManager.manager_scene_loaded.disconnect(_on_scene_ready)
+		SceneManager.update_progress.disconnect(target.main.gui_progress._on_progress_changed)
 
 
 	func _on_scene_ready(p_scene: Node):
@@ -236,7 +234,7 @@ class FinishLoadLevelState extends StateMachine.State:
 
 
 	func _on_enter_state():
-		target.emit_signal("level_changed")
+		target.level_changed.emit()
 	
 	
 	func _on_leave_state():

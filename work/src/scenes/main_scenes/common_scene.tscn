@@ -1,17 +1,17 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://b5wx7q0b5gydd"]
 
-[ext_resource path="res://addons/scene_manager/proxy_scene.tscn" type="PackedScene" id=1]
-[ext_resource path="res://work/src/scenes/main_scenes/common_scene.gd" type="Script" id=2]
-[ext_resource path="res://work/src/scenes/support_scenes/movable.tscn" type="PackedScene" id=5]
+[ext_resource type="PackedScene" path="res://addons/scene_manager/proxy_scene.tscn" id="1"]
+[ext_resource type="Script" path="res://work/src/scenes/main_scenes/common_scene.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://cwn16d3oenq2x" path="res://work/src/scenes/support_scenes/movable.tscn" id="5"]
 
-[node name="CommonScene" instance=ExtResource( 1 )]
-layer = 0
-script = ExtResource( 2 )
-next_level_filepath = "res://work/src/scenes/support_scenes/runtime_collectable.tscn"
+[node name="CommonScene" instance=ExtResource("1")]
+layer = -1
+script = ExtResource("2")
+next_level_filepath = ""
 runtime_collectable_filepath = "res://work/src/scenes/support_scenes/runtime_collectable.tscn"
 runtime_collectable_trap_filepath = "res://work/src/scenes/support_scenes/runtime_collectable_trap.tscn"
 runtime_trap_filepath = "res://work/src/scenes/support_scenes/runtime_trap.tscn"
-next_level_actor_start_pos = Vector2( 0, 0 )
+next_level_actor_start_pos = Vector2(0, 0)
 next_level_key = 0
 
-[node name="Movable" parent="." index="0" instance=ExtResource( 5 )]
+[node name="Movable" parent="." index="0" instance=ExtResource("5")]

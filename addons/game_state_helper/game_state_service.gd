@@ -3,6 +3,7 @@ extends Node
 signal state_load_completed()
 signal new_game_state_initialized()
 
+
 var _game_state_default := {
 	"meta_data": {
 		"current_scene_path": ""
@@ -29,7 +30,7 @@ var _skip_next_scene_transition_save := false
 
 func _ready():
 	# monitor whenever a node is added in the tree - we can tell when a new scene is loaded this way
-	if OK != get_tree().connect("node_added", Callable(self, "_on_scene_tree_node_added")):
+	if OK != get_tree().node_added.connect(_on_scene_tree_node_added):
 		printerr("GameStateService: could not connect to scene tree node_added signal!")
 	
 	# the main scene has already been added to the tree at this point - so process it now
@@ -47,11 +48,8 @@ Creates a json file with the raw game state dictionary data.  This is used for d
 func dump_game_state() -> void:
 	var file_name = "user://game_state_dump_%s.json" % _get_date_time_string()
 	var json_string = JSON.stringify(_game_state, "\t")
-	
-	var f = File.new()
-	f.open(file_name, File.WRITE)
+	var f = FileAccess.open(file_name, FileAccess.WRITE)
 	f.store_string(json_string)
-	f.close()
 
 
 """
@@ -74,47 +72,33 @@ func get_global_state_value(key: String):
 
 
 """
-Checks if given game state file exist and is valid.
-"""
-func check_game_state_exists_and_valid(path: String) -> bool:
-	var file := File.new()
-	if !file.file_exists(path):
-		return false
-
-	var save_file_hash = _get_file_content_hash(path)
-	var saved_hash = _get_save_file_hash(path)
-
-	if save_file_hash != saved_hash:
-		printerr("GameStateService: Save file is corrupt or has been modified: path %s" % path)
-		return false
-	return true
-
-
-"""
 Loads game state data from given file path.  If loading is successful,
 calls given func ref for scene transition if given.
 """
-func load_game_state(path: String, scene_transition_func: FuncRef, password: String = "Q6YU2eXCWN$e&uhS", use_smart_parser: bool = true) -> bool:
+func load_game_state(path: String, scene_transition_func: Callable, password: String = "Q6YU2eXCWN$e&uhS", use_smart_parser: bool = true) -> bool:
+	if !FileAccess.file_exists(path):
+		printerr("GameStateService: File does not exist: path %s" % path)
+		return false
+
 	var save_file_hash = _get_file_content_hash(path)
 	var saved_hash = _get_save_file_hash(path)
 
 	if save_file_hash != saved_hash:
 		printerr("GameStateService: Save file is corrupt or has been modified: path %s" % path)
 		return false
-	
+
 	if OS.is_debug_build():	
 		if use_smart_parser:
 			_game_state = SmartJSONParser.deserialize_variant_data(FileUtil.load_data_JSON(path))
 		else:
 			_game_state = str_to_var(FileUtil.load_text(path))
 #			_game_state = FileUtil.load_data(path)
-	
 	else:
 		if use_smart_parser:
 			_game_state = SmartJSONParser.deserialize_variant_data(FileUtil.load_encrypted_data_JSON(path, password))
 		else:
 			_game_state = str_to_var(FileUtil.load_encrypted_text(path, password))
-	#		_game_state = FileUtil.load_encrypted_data(path, password)
+#			_game_state = FileUtil.load_encrypted_data(path, password)
 
 	_skip_next_scene_transition_save = true
 
@@ -122,7 +106,7 @@ func load_game_state(path: String, scene_transition_func: FuncRef, password: Str
 	# this lets caller handle the transition
 	var scene_path = _game_state["meta_data"]["current_scene_path"]
 	if scene_transition_func != null:
-		scene_transition_func.call_func(scene_path)
+		scene_transition_func.call(scene_path)
 		
 	return true
 
@@ -132,7 +116,7 @@ resets game state for a new game
 """
 func new_game() -> void:
 	_game_state = _game_state_default.duplicate(true)
-	emit_signal("new_game_state_initialized")
+	new_game_state_initialized.emit()
 
 
 """
@@ -145,7 +129,7 @@ func save_game_state(path: String, password: String = "Q6YU2eXCWN$e&uhS", use_sm
 	on_scene_transitioning("")
 
 	_game_state["game_data_version"] = "1.0"
-	
+
 	var status: int
 	if OS.is_debug_build():
 		if use_smart_parser:
@@ -153,7 +137,6 @@ func save_game_state(path: String, password: String = "Q6YU2eXCWN$e&uhS", use_sm
 		else:
 			status = FileUtil.save_text(path, var_to_str(_game_state))
 #			status = FileUtil.save_data(path, _game_state)
-
 	else:
 		if use_smart_parser:
 			status = FileUtil.save_encrypted_data_JSON(path, SmartJSONParser.serialize_variant_data(_game_state), password)
@@ -162,7 +145,7 @@ func save_game_state(path: String, password: String = "Q6YU2eXCWN$e&uhS", use_sm
 #			status = FileUtil.save_encrypted_data(path, _game_state, password)
 		
 	_save_save_file_hash(path)
-
+	
 	if status == OK:
 		return true
 		
@@ -191,11 +174,11 @@ Determines an id for a scene node.  This id is used as a key to the game state d
 """
 func _get_scene_id(node: Node) -> String:
 	var id = node.get("id")
-	if id == null:
-		if node.filename != null:
-			id = node.filename
+	if id == null or id.is_empty():
+		if node.scene_file_path != null:
+			id = node.scene_file_path
 		else:
-			printerr("GameStateService: scene has no filename??  path: %s" % node.get_path())
+			printerr("GameStateService: scene has no scene_file_path??  path: %s" % node.get_path())
 			return ""
 	
 	return id
@@ -209,7 +192,7 @@ func _get_scene_data(id: String, node: Node) -> Dictionary:
 	
 	if !scene_data.has(id):
 		var temp = {
-			"filename": node.filename,
+			"scene_file_path": node.scene_file_path,
 			"node_data": {}
 			}
 		scene_data[id] = temp
@@ -229,7 +212,7 @@ func _handle_scene_load(node: Node) -> void:
 		return
 	
 	# store path to scene file for the now current scene
-	_game_state["meta_data"]["current_scene_path"] = node.filename
+	_game_state["meta_data"]["current_scene_path"] = node.scene_file_path
 	
 	# wait for scene to be fully loaded
 	await node.ready
@@ -347,8 +330,8 @@ instanced child scene is freed at runtime.
 """
 func _connect_to_GameStateHelper_freed_signal():
 	for save_and_load in get_tree().get_nodes_in_group(GameStateHelper.NODE_GROUP):
-		if !save_and_load.is_connected("instanced_child_scene_freed", Callable(self, "_on_instanced_child_scene_freed")):
-			save_and_load.connect("instanced_child_scene_freed", Callable(self, "_on_instanced_child_scene_freed"))
+		if !save_and_load.is_connected("instanced_child_scene_freed", _on_instanced_child_scene_freed):
+			save_and_load.connect("instanced_child_scene_freed", _on_instanced_child_scene_freed)
 
 
 """
@@ -373,7 +356,7 @@ func _save_freed_save_and_load(data: Dictionary) -> void:
 Handler for when a new scene is about to be transitioned to.  Game state for
 the current scene is saved into the game state.
 """
-func on_scene_transitioning(_new_scene_path = "") -> void:
+func on_scene_transitioning(_new_scene_path) -> void:
 	# skip the transition when loading a saved game
 	if _skip_next_scene_transition_save:
 		_skip_next_scene_transition_save = false
@@ -420,8 +403,8 @@ func _get_date_time_string():
 Gets the md5 hash of the contents of a file.
 """
 func _get_file_content_hash(file_path: String) -> String:
-	var f = File.new()
-	if OK != f.open(file_path, File.READ):
+	var f = FileAccess.open(file_path, FileAccess.READ)
+	if f == null or !f.is_open():
 		return ""
 	var content = f.get_as_text()
 	f.close()
@@ -433,8 +416,8 @@ Gets md5 hash of a save file that was saved along side (in another file)
 """
 func _get_save_file_hash(file_path: String) -> String:
 	file_path = file_path.replace("." + file_path.get_extension(), ".dat")
-	var f = File.new()
-	if OK != f.open(file_path, File.READ):
+	var f = FileAccess.open(file_path, FileAccess.READ)
+	if f == null or !f.is_open():
 		return ""
 	var content = f.get_as_text()
 	f.close()
@@ -449,14 +432,8 @@ contents have been altered.
 func _save_save_file_hash(file_path: String) -> void:
 	var content_hash = _get_file_content_hash(file_path)
 	file_path = file_path.replace("." + file_path.get_extension(), ".dat")
-	var f = File.new()
-	if OK != f.open(file_path, File.WRITE):
+	var f = FileAccess.open(file_path, FileAccess.WRITE)
+	if f == null or !f.is_open():
 		return
 	f.store_string(content_hash)
 	f.close()
-
-
-
-
-
-

@@ -19,14 +19,14 @@ signal global_position_changed(global_position)
 
 func set_health(new_health: int) -> void:
 	health = new_health
-	emit_signal("health_changed", health)
+	health_changed.emit(health)
 	
 	
 func set_reward_runtime_collected(new_reward_runtime_collected: int) -> void:
 	reward_runtime_collected = new_reward_runtime_collected
-	emit_signal("runtime_collected", reward_runtime_collected)
+	runtime_collected.emit(reward_runtime_collected)
 	
 	
 func set_global_position(new_global_position: Vector2) -> void:
 	global_position = new_global_position
-	emit_signal("global_position_changed", new_global_position)
+	global_position_changed.emit(new_global_position)

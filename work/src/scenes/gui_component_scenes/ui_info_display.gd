@@ -13,18 +13,18 @@ var _ignore_value_change := false
 
 
 func _ready():
-	run_speed_slider.connect("value_changed", Callable(self, "_on_value_changed"))
-	strength_spinbox.connect("value_changed", Callable(self, "_on_value_changed"))
-	endurance_spinbox.connect("value_changed", Callable(self, "_on_value_changed"))
-	intelligence_spinbox.connect("value_changed", Callable(self, "_on_value_changed"))
+	run_speed_slider.value_changed.connect(_on_value_changed)
+	strength_spinbox.value_changed.connect(_on_value_changed)
+	endurance_spinbox.value_changed.connect(_on_value_changed)
+	intelligence_spinbox.value_changed.connect(_on_value_changed)
 	
 	
 func set_actor_stats(new_actor_stats: Resource) -> void:
 	if actor_stats != new_actor_stats:
-		new_actor_stats.connect("health_changed", Callable(self, "update_health_label"))
-		new_actor_stats.connect("runtime_collected", Callable(self, "update_reward_label"))
+		new_actor_stats.health_changed.connect(update_health_label)
+		new_actor_stats.runtime_collected.connect(update_reward_label)
 		if new_actor_stats.has_signal("global_position_changed"):
-			new_actor_stats.connect("global_position_changed", Callable(self, "update_player_position"))
+			new_actor_stats.global_position_changed.connect(update_player_position)
 		
 	actor_stats = new_actor_stats
 	# Changing the spin box value triggers their value_changed signal, which we
