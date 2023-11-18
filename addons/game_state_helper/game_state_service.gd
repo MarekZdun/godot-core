@@ -191,7 +191,7 @@ Determines an id for a scene node.  This id is used as a key to the game state d
 """
 func _get_scene_id(node: Node) -> String:
 	var id = node.get("id")
-	if id == null:
+	if id == null or id.empty():
 		if node.filename != null:
 			id = node.filename
 		else:
