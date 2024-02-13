@@ -23,7 +23,6 @@ static func load_encrypted_text(file_path: String, password: String = "pass",  d
 static func save_text(file_path: String, data: String) -> int:
 	var file: FileAccess = FileAccess.open(file_path, FileAccess.WRITE)
 	if file == null:
-		file.close()
 		return FileAccess.get_open_error()
 	file.store_string(data)
 	file.close()
@@ -33,7 +32,6 @@ static func save_text(file_path: String, data: String) -> int:
 static func save_encrypted_text(file_path: String, data: String, password: String = "pass") -> int:
 	var file: FileAccess = FileAccess.open_encrypted_with_pass(file_path, FileAccess.WRITE, password)
 	if file == null:
-		file.close()
 		return FileAccess.get_open_error()
 	file.store_string(data)
 	file.close()
@@ -43,7 +41,6 @@ static func save_encrypted_text(file_path: String, data: String, password: Strin
 static func load_encrypted_data(file_path: String, password: String = "pass", default_value = {}) -> Dictionary:
 	var file: FileAccess = FileAccess.open_encrypted_with_pass(file_path, FileAccess.READ, password)
 	if file == null:
-		file.close()
 		return default_value
 	var data = file.get_var(false)
 	file.close()
@@ -53,7 +50,6 @@ static func load_encrypted_data(file_path: String, password: String = "pass", de
 static func save_encrypted_data(file_path: String, data: Dictionary, password: String = "pass") -> int:
 	var file: FileAccess = FileAccess.open_encrypted_with_pass(file_path, FileAccess.WRITE, password)
 	if file == null:
-		file.close()
 		return FileAccess.get_open_error()
 	file.store_var(data, false)
 	file.close()
@@ -63,7 +59,6 @@ static func save_encrypted_data(file_path: String, data: Dictionary, password: S
 static func load_encrypted_object(file_path: String, password: String = "pass", default_value = null) -> Object:
 	var file: FileAccess = FileAccess.open_encrypted_with_pass(file_path, FileAccess.READ, password)
 	if file == null:
-		file.close()
 		return default_value
 	var data = file.get_var(true)
 	file.close()
@@ -73,7 +68,6 @@ static func load_encrypted_object(file_path: String, password: String = "pass", 
 static func save_encrypted_object(file_path: String, data: Object, password: String) -> int:
 	var file: FileAccess = FileAccess.open_encrypted_with_pass(file_path, FileAccess.WRITE, password)
 	if file == null:
-		file.close()
 		return FileAccess.get_open_error()
 	file.store_var(data, true)
 	file.close()
