@@ -19,7 +19,7 @@ class IdleState extends StateMachine.State:
 	func _on_leave_state():
 		pass
 		
-#---------------------------------------------------------------------------------------------------		
+#---------------------------------------------------------------------------------------------------
 
 class MainMenuState extends StateMachine.State:
 	var button_play_menu_clicked: bool = false

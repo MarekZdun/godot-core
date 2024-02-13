@@ -190,7 +190,7 @@ static func deserialize_object_data(text_data: Dictionary) -> Object:
 			output_data.set(prop_name, deserialize_dictionary_data(value[prop_name]))
 			
 		elif prop_type == TYPE_ARRAY:
-			output_data.set(prop_name, deserialize_array_data(value[prop_name]))
+			output_data[prop_name].assign(deserialize_array_data(value[prop_name]))
 			
 		elif prop_type == TYPE_VECTOR2:
 			output_data.set(prop_name, deserialize_vector2_data(value[prop_name]))
@@ -219,7 +219,7 @@ static func deserialize_dictionary_data(text_data: Dictionary) -> Dictionary:
 			output_data[prop_name] = deserialize_dictionary_data(value[prop_name])
 			
 		elif prop_type == TYPE_ARRAY:
-			output_data[prop_name] = deserialize_array_data(value[prop_name])
+			output_data[prop_name].assign(deserialize_array_data(value[prop_name]))
 			
 		elif prop_type == TYPE_VECTOR2:
 			output_data[prop_name] = deserialize_vector2_data(value[prop_name])
@@ -248,7 +248,9 @@ static func deserialize_array_data(text_data: Dictionary) -> Array:
 			output_data.append(deserialize_dictionary_data(value[i]))
 			
 		elif prop_type == TYPE_ARRAY:
-			output_data.append(deserialize_array_data(value[i]))
+			var arr := []
+			arr.assign(deserialize_array_data(value[i]))
+			output_data.append(arr)
 			
 		elif prop_type == TYPE_VECTOR2:
 			output_data.append(deserialize_vector2_data(value[i]))

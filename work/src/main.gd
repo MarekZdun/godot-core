@@ -1,5 +1,12 @@
 extends Node
-
+"
+If you want the information about the removal of the avatar scene (movable) to be saved:
+	-set the global property belonging to the GameStateHelper of the avatar scene to false.
+	-save the statistics of the avatar scene in the GameStateHelper Main/autoloader, 
+		set the global property of this GameStateHelper to true.
+	-in the _ready scene of any level scene, after await GameStateService.state_load_completed, 
+		get the statistics from Main/autoloader and pass them for the avatar scene.
+"
 
 const SAVE_GAME_FOLDER = "user://save_games"
 

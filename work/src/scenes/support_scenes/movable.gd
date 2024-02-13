@@ -8,7 +8,7 @@ func _ready() -> void:
 
 
 func _process(delta):
-	var v = Vector2.ZERO
+	var v := Vector2.ZERO
 	
 	if Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_A):
 		v.x -= 1

@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://byc0phq142udx" path="res://addons/gui_manager/gui.tscn" id="1"]
 [ext_resource type="Script" path="res://work/src/scenes/gui_scenes/gui_hud.gd" id="2"]
-[ext_resource type="PackedScene" uid="uid://p8oiyhn2lqbw" path="res://work/src/scenes/gui_component_scenes/ui_info_display.tscn" id="3"]
-[ext_resource type="PackedScene" uid="uid://dwftjapi708wt" path="res://work/src/scenes/gui_component_scenes/ui_inventory.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://p8oiyhn2lqbw" path="res://work/src/scenes/ui_element_scenes/ui_info_display.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://dwftjapi708wt" path="res://work/src/scenes/ui_element_scenes/ui_inventory.tscn" id="4"]
 
 [node name="GuiHud" instance=ExtResource("1")]
 script = ExtResource("2")
